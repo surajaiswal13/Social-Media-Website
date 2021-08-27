@@ -1,0 +1,50 @@
+{# {% load static %} #}
+<div class="media">
+	<h3 class="mr-5"><a href="{% url 'posts:for_user' username=post.user.username %}">@{{ post.user.username }}</a></h3>
+
+	<div class="media-body">
+		<strong>{{ post.user.username }}</strong>
+		<h5>{{ post.message_html|safe }}</h5>
+
+		{% if post.image %}
+			<img src="{{ post.image.url }}" alt="image" style="height:500px;width:700px">
+
+			<br><br>
+		{% endif %}
+
+		{% if post.video %}
+
+		{# VIDEO IN-CONTENT POSTER #}
+
+		<video src="{{ post.video.url }}" poster="{{ MEDIA_URL }}" controls >
+		</video>
+
+		<br><br>
+		{% endif %}
+
+		{% if post.file %}
+			<center><a href="{{ post.file.url }}" class="btn btn-outline-danger btn-sm downloadbt" style="border-radius:10%;" target="_blank"><i class="fas fa-file-download"></i>  Download File</a></center>
+
+			<br><br>
+		{% endif %}
+
+
+
+
+			<time class="time"><a href="{% url 'posts:single' username=post.user.username pk=post.pk %}">{{ post.created_at }}</a></time>
+			{% if post.group %}
+			<span class="group-name">in <a href="#">{{ post.group.name }}</a></span>
+			{% endif %}
+		</h5>
+		<br>
+		<br>
+		<div class="media-footer">
+			{% if user.is_authenticated and post.user == user and not hide_delete %}
+				<a href="{% url 'posts:delete' pk=post.pk %}" title="delete" class="btn btn-outline-danger">
+					<span class="fa fa-remove " aria-hidden="true"></span>
+					<span class=" icon-label">Delete</span>
+				</a>
+			{% endif %}
+		</div>
+	</div>
+</div>

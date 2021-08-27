@@ -1,0 +1,72 @@
+{% extends "posts/post_base.html" %}
+{# {% load humanize %} #}
+
+{% block pre_post_content %}
+<div class="col-md-4">
+	{% if request.user.is_authenticated %}
+	<div class="card card-with-shadow">
+		<div class="content">
+			<h5 class="title">Your Groups</h5>
+			<ul class="list-unstyled">
+
+				{% for member_group in get_user_groups %}
+				<li class="group li-with-bullet">
+					<a href="{% url 'groups:single' slug=member_group.group.slug %}">{{ member_group.group.name }}</a>
+				</li>
+				{% endfor %}
+
+			</ul>
+		</div>
+	</div>
+	{% endif %}
+	<div class="card card-with-shadow">
+		<div class="content">
+			<h5 class="title">All groups</h5>
+			<ul class="list-unstyled">
+				{# {% get_other_groups as other_groups %} #}
+				{% for other_group in get_other_groups %}
+					<li class="group li-with-bullet"><a href="{% url 'groups:single' slug=other_group.slug %}">{{ other_group.name }}</a></li>
+				{% endfor %}
+			</ul>
+
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block post_content %}
+<div class="col-md-8">
+	{% for post in post_list %}
+  {% include "posts/_post.html" %}
+	{% endfor %}
+</div>
+
+{# Pagination #}
+
+<div class="d-flex justify-content-center">
+
+	{% if is_paginated %}
+
+	      {% if page_obj.has_previous %}
+	        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+	        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+	      {% endif %}
+
+	      {% for num in page_obj.paginator.page_range %}
+	        {% if page_obj.number == num %}
+	          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+	        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+	          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+	        {% endif %}
+	      {% endfor %}
+
+	      {% if page_obj.has_next %}
+	        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+	        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+	      {% endif %}
+
+	    {% endif %}
+
+</div>
+
+{% endblock %}
