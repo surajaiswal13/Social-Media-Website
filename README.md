@@ -3,6 +3,10 @@ Social media website for community interested in Outer Space niche E.g.: SpaceEx
 
 The Social Media Website is named Social Star
 
-It is made using Python, Django, Html5, Css3, BootStrap, Jinja Template Engine, SQLite, etc
+It is made using Python, Django, Html5, Css3, BootStrap, JavaScript, Jinja Template Engine, SQLite, etc
 
 Many Basic and Advanced Features have been implemented in this website such as Authentication, etc
+
+The Webite is also Deployed using Heroku
+
+Deployed Link: https://social-star-web.herokuapp.com/
